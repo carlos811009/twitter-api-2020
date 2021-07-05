@@ -1,7 +1,9 @@
 const { User } = require('../models')
+const { Tweet } = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
+// const { helpers } = require('faker')
+const helpers = require('../_helpers')
 const userController = {
 
   signup: async (req, res, next) => {
@@ -28,7 +30,6 @@ const userController = {
       next(err)
     }
   },
-
   signin: async (req, res, next) => {
     try {
       const { account, password } = req.body
@@ -53,6 +54,30 @@ const userController = {
     catch (err) {
       next(err)
     }
+  },
+  getUser: async (req, res, next) => {
+    try {
+      const user = await User.findByPk(req.params.id)
+      return res.json(user)
+    } catch (err) {
+      next(err)
+    }
+  },
+  getUserTweets: async (req, res, next) => {
+    try {
+      const tweets = await Tweet.findAll({ where: { UserId: req.params.id } })
+      if (tweets.length === 0) return res.json({ status: "error", message: "暫無推文" })
+      tweets = ({
+        
+      })
+      return res.json(tweets)
+    }
+    catch (err) {
+      next(err)
+    }
+  },
+  getUserRepliesTweets: async (req, res, next) => {
+
   }
 }
 

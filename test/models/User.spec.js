@@ -1,31 +1,29 @@
 var chai = require('chai')
 var sinon = require('sinon')
-chai.use(require('sinon-chai'))
-
 const { expect } = require('chai')
-const {
-  sequelize,
-  dataTypes,
-  checkModelName,
-  checkUniqueIndex,
-  checkPropertyExists
-} = require('sequelize-test-helpers')
+chai.use(require('sinon-chai'))
+const proxyquire = require('proxyquire')
+const { sequelize, Sequelize, checkPropertyExists } = require('sequelize-test-helpers')
+
+
 
 const db = require('../../models')
-const UserModel = require('../../models/user')
+// const UserModel = require('../../models/user')
 
 describe('# User Model', () => {
+  const { DataTypes } = Sequelize
+  const UserFactory = proxyquire('../../models/User', {
+    sequelize: Sequelize
+  })
+  let User = UserFactory(sequelize, DataTypes)
   before(done => {
     done()
   })
-
-  const User = UserModel(sequelize, dataTypes)
   const user = new User()
-  checkModelName(User)('User')
-
+  console.log(user)
   context('properties', () => {
     ;[
-      'name', 'email', 'password', 'account',  'cover', 'avatar'
+      'name', 'email', 'password', 'account', 'cover', 'avatar'
     ].forEach(checkPropertyExists(user))
   })
 

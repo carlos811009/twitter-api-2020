@@ -23,5 +23,7 @@ const authenticatedUser = (req, res, next) => {
 
 router.post('/', userController.signup)
 router.post('/signin', userController.signin)
+router.get('/:id', userController.getUser)
+router.get('/:id/tweets', userController.getUserTweets)
 
 module.exports = router
