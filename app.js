@@ -9,10 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const port = process.env.PORT || 3000
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: 'hbs' }))
-app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: false }))
-
 
 require('./routes')(app)
 
